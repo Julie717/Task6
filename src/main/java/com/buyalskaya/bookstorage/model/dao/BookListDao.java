@@ -1,15 +1,20 @@
 package com.buyalskaya.bookstorage.model.dao;
 
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
-import com.buyalskaya.bookstorage.model.exception.ProjectException;
+import com.buyalskaya.bookstorage.model.entity.SortDirection;
+import com.buyalskaya.bookstorage.model.exception.DaoException;
 
 import java.util.*;
 
 public interface BookListDao {
 
-    public void addBook(CustomBook book) throws ProjectException;
+    public void addBook(CustomBook book) throws DaoException;
 
-    public void removeBook(UUID bookId) throws ProjectException;
+    public void removeById(UUID bookId) throws DaoException;
+
+    public void removeByName(String name) throws DaoException;
+
+    public List<CustomBook> findAll();
 
     public Optional<CustomBook> findById(UUID bookId);
 
@@ -23,15 +28,13 @@ public interface BookListDao {
 
     public List<CustomBook> findByPage(int page);
 
-    public List<CustomBook> sortBooksById();
+    public List<CustomBook> sortBooksByName(SortDirection sortDirection);
 
-    public List<CustomBook> sortBooksByName();
+    public List<CustomBook> sortBooksByAuthor(SortDirection sortDirection);
 
-    public List<CustomBook> sortBooksByAuthor();
+    public List<CustomBook> sortBooksByEdition(SortDirection sortDirection);
 
-    public List<CustomBook> sortBooksByEdition();
+    public List<CustomBook> sortBooksByYear(SortDirection sortDirection);
 
-    public List<CustomBook> sortBooksByYear();
-
-    public List<CustomBook> sortBooksByPage();
+    public List<CustomBook> sortBooksByPage(SortDirection sortDirection);
 }

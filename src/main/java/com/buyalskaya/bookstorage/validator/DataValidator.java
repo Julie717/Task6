@@ -1,4 +1,6 @@
-package com.buyalskaya.bookstorage.model.validator;
+package com.buyalskaya.bookstorage.validator;
+
+import com.buyalskaya.bookstorage.model.entity.SortDirection;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,9 +15,9 @@ public class DataValidator {
     private final static int MAX_YEAR = LocalDate.now().getYear();
     private final static int MIN_PAGE = 1;
     private final static int MAX_PAGE = 10000;
-    private static final String CHECK_NUMBER = "\\d+";
+    private final static String CHECK_NUMBER = "\\d+";
 
-    public boolean isPositiveIntegerNumber(String number) {
+    private boolean isPositiveIntegerNumber(String number) {
         if (number == null) {
             return false;
         }
@@ -41,14 +43,14 @@ public class DataValidator {
             return false;
         }
         for (String oneAuthor : author) {
-            if (!validateOneAuthor(oneAuthor)) {
+            if (!validateAuthor(oneAuthor)) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean validateOneAuthor(String author) {
+    public boolean validateAuthor(String author) {
         if (author == null || author.isEmpty()) {
             return false;
         }
@@ -62,11 +64,34 @@ public class DataValidator {
         return Pattern.matches(REGEX_LETTER, edition);
     }
 
-    public boolean validateYear(int year) {
-        return year >= MIN_YEAR && year <= MAX_YEAR;
+    public boolean validateYear(String year) {
+        boolean isCorrectYear = false;
+        if (isPositiveIntegerNumber(year)) {
+            int yearNumber = Integer.parseInt(year);
+            isCorrectYear = (yearNumber >= MIN_YEAR && yearNumber <= MAX_YEAR);
+        }
+        return isCorrectYear;
     }
 
-    public boolean validatePage(int page) {
-        return page >= MIN_PAGE && page <= MAX_PAGE;
+    public boolean validatePage(String page) {
+        boolean isCorrectPage = false;
+        if (isPositiveIntegerNumber(page)) {
+            int pageNumber = Integer.parseInt(page);
+            isCorrectPage = (pageNumber >= MIN_PAGE && pageNumber <= MAX_PAGE);
+        }
+        return isCorrectPage;
+    }
+
+    public boolean validateSortDirection(String sortDirection) {
+        if (sortDirection == null || sortDirection.isEmpty()) {
+            return false;
+        }
+        String directionUpper = sortDirection.toUpperCase();
+        for (SortDirection direction : SortDirection.values()) {
+            if (directionUpper.equals(direction.toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

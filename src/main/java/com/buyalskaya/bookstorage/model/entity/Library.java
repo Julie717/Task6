@@ -1,8 +1,6 @@
 package com.buyalskaya.bookstorage.model.entity;
 
-import com.buyalskaya.bookstorage.model.creator.BooksCreator;
-import com.buyalskaya.bookstorage.model.exception.ProjectException;
-import com.buyalskaya.bookstorage.model.reader.InitialDataReader;
+import com.buyalskaya.bookstorage.model.exception.DaoException;
 
 import java.util.*;
 
@@ -20,31 +18,28 @@ public class Library {
     public static Library getInstance() {
         if (instance == null) {
             instance = new Library();
-            InitialDataReader initialDataReader = new InitialDataReader();
-            List<String> booksParameters;
-            try {
-                booksParameters = initialDataReader.readInitialData(InitialDataReader.DEFAULT_PATH);
-            } catch (ProjectException ex) {
-                booksParameters = new ArrayList<>();
-            }
-            BooksCreator booksCreator = new BooksCreator();
-            books = booksCreator.createInitialBooks(booksParameters);
         }
         return instance;
+    }
+
+    public static void setBooks(List<CustomBook> books) {
+        if (Library.books == null) {
+            Library.books = books;
+        }
     }
 
     public List<CustomBook> getBooks() {
         return books;
     }
 
-    public void add(CustomBook book) throws ProjectException {
+    public void add(CustomBook book) throws DaoException {
         if (books.contains(book)) {
-            throw new ProjectException("This book is already in storage");
+            throw new DaoException("This book is already in storage");
         }
         books.add(book);
     }
 
-    public void remove(CustomBook book) throws ProjectException {
+    public void remove(CustomBook book) throws DaoException {
         books.remove(book);
     }
 

@@ -1,6 +1,6 @@
 package com.buyalskaya.bookstorage.model.entity;
 
-import com.buyalskaya.bookstorage.model.utility.IdCreator;
+import com.buyalskaya.bookstorage.utility.IdCreator;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -16,6 +16,15 @@ public class CustomBook {
 
     public CustomBook(String name, List<String> author, String edition, int year, int page) {
         bookId = IdCreator.createId();
+        this.name = name;
+        this.author = author;
+        this.edition = edition;
+        this.year = year;
+        this.page = page;
+    }
+
+    public CustomBook(UUID bookId, String name, List<String> author, String edition, int year, int page) {
+        this.bookId = bookId;
         this.name = name;
         this.author = author;
         this.edition = edition;

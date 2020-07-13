@@ -1,4 +1,4 @@
-package com.buyalskaya.bookstorage.model.utility;
+package com.buyalskaya.bookstorage.utility;
 
 import java.util.UUID;
 

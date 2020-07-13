@@ -1,4 +1,4 @@
-package com.buyalskaya.bookstorage.model.validator;
+package com.buyalskaya.bookstorage.validator;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -15,27 +15,6 @@ public class DataValidatorTest {
     @BeforeClass
     public void setUp() {
         dataValidator = new DataValidator();
-    }
-
-    @DataProvider(name = "dataForIsPositiveIntegerNumber")
-    public Object[][] dataForIsPositiveIntegerNumber() {
-        return new Object[][]{
-                {"7", true},
-                {"1", true},
-                {"0", true},
-                {"-4", false},
-                {"11.5", false},
-                {"one", false},
-                {"7.", false},
-                {"1E-9", false},
-                {null, false}
-        };
-    }
-
-    @Test(dataProvider = "dataForIsPositiveIntegerNumber")
-    public void isPositiveIntegerNumberTestParams(String number, boolean expected) {
-        boolean actual = dataValidator.isPositiveIntegerNumber(number);
-        assertEquals(actual, expected);
     }
 
     @DataProvider(name = "dataForValidateId")
@@ -102,17 +81,20 @@ public class DataValidatorTest {
     @DataProvider(name = "dataForValidateYear")
     public Object[][] dataForValidateYear() {
         return new Object[][]{
-                {1996, true},
-                {1876, true},
-                {0, false},
-                {-15, false},
-                {1300, false},
-                {2025, false}
+                {"1996", true},
+                {"1876", true},
+                {"0", false},
+                {"-15", false},
+                {"1300", false},
+                {"2025", false},
+                {"one", false},
+                {"", false},
+                {null, false}
         };
     }
 
     @Test(dataProvider = "dataForValidateYear")
-    public void validateYearTestParams(int year, boolean expected) {
+    public void validateYearTestParams(String year, boolean expected) {
         boolean actual = dataValidator.validateYear(year);
         assertEquals(actual, expected);
     }
@@ -120,17 +102,41 @@ public class DataValidatorTest {
     @DataProvider(name = "dataForValidatePage")
     public Object[][] dataForValidatePage() {
         return new Object[][]{
-                {195, true},
-                {987, true},
-                {0, false},
-                {-15, false},
-                {13000, false}
+                {"195", true},
+                {"987", true},
+                {"0", false},
+                {"-15", false},
+                {"13000", false},
+                {"15o8", false},
+                {"", false},
+                {null, false}
         };
     }
 
     @Test(dataProvider = "dataForValidatePage")
-    public void validatePageTestParams(int year, boolean expected) {
-        boolean actual = dataValidator.validatePage(year);
+    public void validatePageTestParams(String page, boolean expected) {
+        boolean actual = dataValidator.validatePage(page);
+        assertEquals(actual, expected);
+    }
+
+    @DataProvider(name = "dataForValidateSortDirection")
+    public Object[][] dataForValidateSortDirection() {
+        return new Object[][]{
+                {"increase", true},
+                {"decrease", true},
+                {"Increase", true},
+                {"Decrease", true},
+                {"INCREASE", true},
+                {"DECREASE", true},
+                {"ANY", false},
+                {"", false},
+                {null, false}
+        };
+    }
+
+    @Test(dataProvider = "dataForValidateSortDirection")
+    public void validateSortDirectionTestParams(String sortDirection, boolean expected) {
+        boolean actual = dataValidator.validateSortDirection(sortDirection);
         assertEquals(actual, expected);
     }
 }
