@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class DataValidator {
-
     private final static String REGEX_LETTER = ".*\\pL.*";
     private final static String REGEX_ID = "[abcdefABCDEF\\d]{8}-([abcdefABCDEF\\d]{4}-){3}[abcdefABCDEF\\d]{12}";
     private final static String REGEX_AUTHOR = "(\\pL[\\pL\\s]+)|(\\pL\\.(\\s)*(\\pL\\.(\\s)*)?\\pL+)";
