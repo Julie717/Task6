@@ -6,7 +6,6 @@ import com.buyalskaya.bookstorage.utility.Response;
 import java.util.Map;
 
 public class BookController {
-
     public void processRequest(String commandName, Map<String, String> parameters,
                                Response response) {
         Command command = ActionProvider.defineCommand(commandName);
