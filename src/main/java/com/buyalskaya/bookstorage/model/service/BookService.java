@@ -15,7 +15,6 @@ import java.util.UUID;
 
 public class BookService {
 
-
     public void bookAdd(String name, String author, String edition,
                         String year, String page) throws ServiceException {
         DataParser dataParser = new DataParser();
