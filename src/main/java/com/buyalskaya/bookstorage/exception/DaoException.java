@@ -1,4 +1,4 @@
-package com.buyalskaya.bookstorage.model.exception;
+package com.buyalskaya.bookstorage.exception;
 
 public class DaoException extends Exception {
     public DaoException() {

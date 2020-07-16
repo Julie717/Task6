@@ -2,7 +2,7 @@ package com.buyalskaya.bookstorage.model.dao;
 
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
 import com.buyalskaya.bookstorage.model.entity.SortDirection;
-import com.buyalskaya.bookstorage.model.exception.DaoException;
+import com.buyalskaya.bookstorage.exception.DaoException;
 
 import java.util.*;
 

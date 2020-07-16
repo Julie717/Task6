@@ -1,17 +1,32 @@
-package com.buyalskaya.bookstorage.utility;
+package com.buyalskaya.bookstorage.controller.command;
 
+import com.buyalskaya.bookstorage.controller.command.impl.FindAllCommand;
+import com.buyalskaya.bookstorage.exception.LibraryException;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
-import com.buyalskaya.bookstorage.model.entity.Library;
+import com.buyalskaya.bookstorage.dataprovider.InitialLibrary;
+import com.buyalskaya.bookstorage.utility.Response;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class InitialLibrary {
-    public static List<CustomBook> books;
+import static org.testng.Assert.*;
 
-    public static void initLibrary() {
-        books = new ArrayList<>();
+public class FindAllCommandTest {
+    FindAllCommand findAllCommand;
+
+    @BeforeClass
+    public void setUp() {
+        findAllCommand = new FindAllCommand();
+    }
+
+    @Test
+    public void findAllCommandTestPositive() throws LibraryException {
+        InitialLibrary.initLibrary();
+        List<CustomBook> books = new ArrayList<>();
         UUID bookId = UUID.fromString("ea357cdf-fee1-4b76-a3b3-d8f9cdc07f3f");
         String name = "Harry Potter and the Philosopher's Stone";
         List<String> author = new ArrayList<>();
@@ -81,7 +96,6 @@ public class InitialLibrary {
         page = 640;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
 
         bookId = UUID.fromString("5d7f2a66-1959-4b28-ba3a-bf08fcda0ebe");
         name = "Notre-Dame de Paris";
@@ -163,21 +177,19 @@ public class InitialLibrary {
         page = 448;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
+        Response expected = new Response();
+        expected.setCompletedSuccess(true);
+        Response actual = findAllCommand.execute(new HashMap<>());
+        expected.setBooks(books);
+        assertEquals(actual, expected);
+    }
 
-        Library.setBooks(books);
-      //  books.add(book);
-        /*
-CustomBook[bookId=7c7449cb-99d9-453b-bbfc-31e3af90b96e, name='Find Me', author=[Anne Frasier], edition='Thomas & Mercer', year=2020, page=285]
-CustomBook[bookId=e451d537-6fe2-4972-bbff-8f38d00fa61c, name='Scarlet Odyssey', author=[C.T.Rwizi], edition='47North', year=2020, page=518]
-CustomBook[bookId=d77854da-58d2-4f0b-afa3-2cf1fae24ace, name='Fair Warning', author=[Michael Connelly], edition='Little, Brown and Company', year=2020, page=416]
-CustomBook[bookId=9ee8ffc4-7449-497c-9cd7-eab886024b42, name='SAT Prep Black Book: The Most Effective SAT Strategies Ever Published', author=[Mike Barrett, Patrick Barrett], edition='ACT Prep Books', year=2020, page=576]
-CustomBook[bookId=aa920966-6094-4237-b6ad-7dacb2f452fd, name='The Montessori Toddler: A Parent's Guide to Raising a Curious and Responsible Human Being', author=[Simone Davies, Hiyoko Imai], edition='Workman Publishing Company', year=2019, page=256]
-CustomBook[bookId=68546ef5-5313-4154-8d3a-12f33fe7ae8a, name='Montessori from the Start: The Child at Home, from Birth to Age Three', author=[Paula Polk Lillard, Lynn Lillard Jessen], edition='Schocken', year=2003, page=304]
-CustomBook[bookId=95f6a13d-0ae0-4ffa-8243-9e69a9202cd2, name='Guide to Colorado Backroads & 4-Wheel-Drive Trails', author=[Charles A. Wells, Matt Peterson], edition='Funtreks Inc', year=2019, page=236]
-CustomBook[bookId=5aba7da3-9301-4cda-adb4-7fd42c36806e, name='The Warmth of Other Suns: The Epic Story of America's Great Migration', author=[Isabel Wilkerson], edition='Vintage', year=2011, page=640]
-CustomBook[bookId=ffff70e7-4552-49a6-960e-6d7101bb98fe, name='If It Bleeds', author=[Stephen King], edition='Scribner', year=2020, page=448]
-CustomBook[bookId=c01cad91-873e-42ca-b267-e1267e1bd201, name='The Institute', author=[Stephen King], edition='Gallery Books', year=2020, page=576]
-CustomBook[bookId=d9d60f47-6989-4f00-8a2e-4b5fbc88b027, name='Memoirs and Misinformation', author=[Jim Carrey, Dana Vachon], edition='Knopf', year=2020, page=272]
-*/
+    @Test
+    public void findAllCommandTestNegative() {
+        Response expected = new Response();
+        expected.setCompletedSuccess(false);
+        Response actual = findAllCommand.execute(new HashMap<>());
+        expected.setMessage("Books are absent in library");
+        assertEquals(actual, expected);
     }
 }

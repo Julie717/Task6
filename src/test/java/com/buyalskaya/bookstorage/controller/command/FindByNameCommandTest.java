@@ -1,14 +1,15 @@
 package com.buyalskaya.bookstorage.controller.command;
 
 import com.buyalskaya.bookstorage.controller.command.impl.FindByNameCommand;
+import com.buyalskaya.bookstorage.exception.LibraryException;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
-import com.buyalskaya.bookstorage.utility.InitialLibrary;
+import com.buyalskaya.bookstorage.dataprovider.InitialLibrary;
+import com.buyalskaya.bookstorage.utility.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.testng.Assert.assertEquals;
 
@@ -16,7 +17,7 @@ public class FindByNameCommandTest {
     FindByNameCommand findByNameCommand;
 
     @BeforeClass
-    public void setUp() {
+    public void setUp() throws LibraryException {
         findByNameCommand = new FindByNameCommand();
         InitialLibrary.initLibrary();
     }
@@ -25,94 +26,107 @@ public class FindByNameCommandTest {
     public Object[][] dataForFindByNameCommand() {
         Map<String, String> parameters1 = new HashMap<>();
         parameters1.put("name", "Harry Potter");
-        Map<String, String> response1 = new HashMap<>();
-        response1.put("response", "correct");
-        StringBuilder response = new StringBuilder();
-        response.append("[");
-        response.append(CustomBook.class.getSimpleName());
-        response.append("[bookId=ea357cdf-fee1-4b76-a3b3-d8f9cdc07f3f, ");
-        response.append("name='Harry Potter and the Philosopher's Stone', ");
-        response.append("author=[J.K.Rowling], ");
-        response.append("edition='Bloomsbury', ");
-        response.append("year=2014, ");
-        response.append("page=352], ");
-        response.append(CustomBook.class.getSimpleName());
-        response.append("[bookId=730bd030-69a2-4d74-8183-45053437043f, ");
-        response.append("name='Harry Potter and the Chamber of Secrets', ");
-        response.append("author=[J.K.Rowling], ");
-        response.append("edition='Bloomsbury', ");
-        response.append("year=2014, ");
-        response.append("page=384], ");
-        response.append(CustomBook.class.getSimpleName());
-        response.append("[bookId=b63ad7d6-de3f-445d-88d0-c77319426c36, ");
-        response.append("name='Harry Potter and the Prisoner of Azkaban', ");
-        response.append("author=[J.K.Rowling], ");
-        response.append("edition='Bloomsbury', ");
-        response.append("year=2014, ");
-        response.append("page=480], ");
-        response.append(CustomBook.class.getSimpleName());
-        response.append("[bookId=6a87f4a7-3e0e-43d0-b74d-bc8f90f62702, ");
-        response.append("name='Harry Potter and the Goblet of Fire', ");
-        response.append("author=[J.K.Rowling], ");
-        response.append("edition='Bloomsbury', ");
-        response.append("year=2014, ");
-        response.append("page=640], ");
-        response.append(CustomBook.class.getSimpleName());
-        response.append("[bookId=9a87cd94-ee92-4d13-8ca9-e8ef49d3f67d, ");
-        response.append("name='Harry Potter and the Order of the Phoenix', ");
-        response.append("author=[J.K.Rowling], ");
-        response.append("edition='Bloomsbury', ");
-        response.append("year=2014, ");
-        response.append("page=816], ");
-        response.append(CustomBook.class.getSimpleName());
-        response.append("[bookId=20b020a3-51cb-4dd4-9267-eb997aa8e630, ");
-        response.append("name='Harry Potter and the Half-Blood Prince', ");
-        response.append("author=[J.K.Rowling], ");
-        response.append("edition='Bloomsbury', ");
-        response.append("year=2014, ");
-        response.append("page=560], ");
-        response.append(CustomBook.class.getSimpleName());
-        response.append("[bookId=28b22d61-e6bf-4763-9b8f-548417a6dc41, ");
-        response.append("name='Harry Potter and the Deathly Hallows', ");
-        response.append("author=[J.K.Rowling], ");
-        response.append("edition='Bloomsbury', ");
-        response.append("year=2014, ");
-        response.append("page=640]]");
-        response1.put("message", response.toString());
+        Response response1 = new Response();
+        response1.setCompletedSuccess(true);
+        List<CustomBook> books = new ArrayList<>();
+        UUID bookId = UUID.fromString("ea357cdf-fee1-4b76-a3b3-d8f9cdc07f3f");
+        String name = "Harry Potter and the Philosopher's Stone";
+        List<String> author = new ArrayList<>();
+        author.add("J.K.Rowling");
+        String edition = "Bloomsbury";
+        int year = 2014;
+        int page = 352;
+        CustomBook book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        bookId = UUID.fromString("730bd030-69a2-4d74-8183-45053437043f");
+        name = "Harry Potter and the Chamber of Secrets";
+        author = new ArrayList<>();
+        author.add("J.K.Rowling");
+        edition = "Bloomsbury";
+        year = 2014;
+        page = 384;
+        book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        bookId = UUID.fromString("b63ad7d6-de3f-445d-88d0-c77319426c36");
+        name = "Harry Potter and the Prisoner of Azkaban";
+        author = new ArrayList<>();
+        author.add("J.K.Rowling");
+        edition = "Bloomsbury";
+        year = 2014;
+        page = 480;
+        book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        bookId = UUID.fromString("6a87f4a7-3e0e-43d0-b74d-bc8f90f62702");
+        name = "Harry Potter and the Goblet of Fire";
+        author = new ArrayList<>();
+        author.add("J.K.Rowling");
+        edition = "Bloomsbury";
+        year = 2014;
+        page = 640;
+        book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        bookId = UUID.fromString("9a87cd94-ee92-4d13-8ca9-e8ef49d3f67d");
+        name = "Harry Potter and the Order of the Phoenix";
+        author = new ArrayList<>();
+        author.add("J.K.Rowling");
+        edition = "Bloomsbury";
+        year = 2014;
+        page = 816;
+        book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        bookId = UUID.fromString("20b020a3-51cb-4dd4-9267-eb997aa8e630");
+        name = "Harry Potter and the Half-Blood Prince";
+        author = new ArrayList<>();
+        author.add("J.K.Rowling");
+        edition = "Bloomsbury";
+        year = 2014;
+        page = 560;
+        book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        bookId = UUID.fromString("28b22d61-e6bf-4763-9b8f-548417a6dc41");
+        name = "Harry Potter and the Deathly Hallows";
+        author = new ArrayList<>();
+        author.add("J.K.Rowling");
+        edition = "Bloomsbury";
+        year = 2014;
+        page = 640;
+        book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        response1.setBooks(books);
 
         Map<String, String> parameters2 = new HashMap<>();
         parameters2.put("id", "ffffffff-de3f-445d-88d0-c77319426c36");
-        Map<String, String> response2 = new HashMap<>();
-        response2.put("response", "error");
-        response2.put("message", "Incorrect book name");
+        Response response2 = new Response();
+        response2.setCompletedSuccess(false);
+        response2.setMessage("Incorrect book name");
 
         Map<String, String> parameters3 = new HashMap<>();
         parameters3.put("name", "Black moon");
-        Map<String, String> response3 = new HashMap<>();
-        response3.put("response", "error");
-        response3.put("message", "Book isn't found");
+        Response response3 = new Response();
+        response3.setCompletedSuccess(false);
+        response3.setMessage("Book isn't found");
 
         Map<String, String> parameters4 = new HashMap<>();
         parameters4.put("name", "");
-        Map<String, String> response4 = new HashMap<>();
-        response4.put("response", "error");
-        response4.put("message", "Incorrect book name");
+        Response response4 = new Response();
+        response4.setCompletedSuccess(false);
+        response4.setMessage("Incorrect book name");
 
         Map<String, String> parameters5 = new HashMap<>();
         parameters5.put("name", "Paris");
-        Map<String, String> response5 = new HashMap<>();
-        response5.put("response", "correct");
-        StringBuilder book = new StringBuilder();
-        book.append("[");
-        book.append(CustomBook.class.getSimpleName());
-        book.append("[bookId=5d7f2a66-1959-4b28-ba3a-bf08fcda0ebe, ");
-        book.append("name='Notre-Dame de Paris', ");
-        book.append("author=[Victor Hugo], ");
-        book.append("edition='Oxford University Press, Reissue edition', ");
-        book.append("year=2009, ");
-        book.append("page=592]]");
-        response5.put("message", book.toString());
-
+        Response response5 = new Response();
+        response5.setCompletedSuccess(true);
+        books = new ArrayList<>();
+        bookId = UUID.fromString("5d7f2a66-1959-4b28-ba3a-bf08fcda0ebe");
+        name = "Notre-Dame de Paris";
+        author = new ArrayList<>();
+        author.add("Victor Hugo");
+        edition = "Oxford University Press, Reissue edition";
+        year = 2009;
+        page = 592;
+        book = new CustomBook(bookId, name, author, edition, year, page);
+        books.add(book);
+        response5.setBooks(books);
         return new Object[][]{
                 {parameters1, response1},
                 {parameters2, response2},
@@ -123,8 +137,8 @@ public class FindByNameCommandTest {
     }
 
     @Test(dataProvider = "dataForFindByNameCommand")
-    public void findByNameCommandTestParams(Map<String, String> parameters, Map<String, String> expected) {
-        Map<String, String> actual = findByNameCommand.execute(parameters);
+    public void findByNameCommandTestParams(Map<String, String> parameters, Response expected) {
+        Response actual = findByNameCommand.execute(parameters);
         assertEquals(actual, expected);
     }
 }

@@ -3,31 +3,27 @@ package com.buyalskaya.bookstorage.controller.command.impl;
 import com.buyalskaya.bookstorage.controller.command.Command;
 import com.buyalskaya.bookstorage.exception.ServiceException;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
-import com.buyalskaya.bookstorage.service.BookService;
+import com.buyalskaya.bookstorage.model.service.BookService;
+import com.buyalskaya.bookstorage.utility.Response;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class FindByEditionCommand implements Command {
-    private static final String PARAM_EDITION= "edition";
-    private static final String RESPONSE_PARAM_NAME = "response";
-    private static final String RESPONSE_PARAM_MESSAGE = "message";
-    private static final String ERROR = "error";
-    private static final String CORRECT = "correct";
+    private static final String PARAM_EDITION = "edition";
 
     @Override
-    public Map<String, String> execute(Map<String, String> parameters) {
+    public Response execute(Map<String, String> parameters) {
         String edition = parameters.get(PARAM_EDITION);
         BookService bookService = new BookService();
-        Map<String, String> response = new HashMap<>();
+        Response response = new Response();
         try {
             List<CustomBook> books = bookService.findByEdition(edition);
-            response.put(RESPONSE_PARAM_NAME, CORRECT);
-            response.put(RESPONSE_PARAM_MESSAGE, books.toString());
+            response.setCompletedSuccess(true);
+            response.setBooks(books);
         } catch (ServiceException ex) {
-            response.put(RESPONSE_PARAM_NAME, ERROR);
-            response.put(RESPONSE_PARAM_MESSAGE, ex.getMessage());
+            response.setCompletedSuccess(false);
+            response.setMessage(ex.getMessage());
         }
         return response;
     }

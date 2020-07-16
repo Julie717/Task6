@@ -1,10 +1,11 @@
 package com.buyalskaya.bookstorage.model.dao.impl;
 
+import com.buyalskaya.bookstorage.exception.LibraryException;
 import com.buyalskaya.bookstorage.model.dao.BookListDao;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
 import com.buyalskaya.bookstorage.model.entity.Library;
 import com.buyalskaya.bookstorage.model.entity.SortDirection;
-import com.buyalskaya.bookstorage.model.exception.DaoException;
+import com.buyalskaya.bookstorage.exception.DaoException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,53 +13,64 @@ import java.util.stream.Collectors;
 public class BookListDaoImpl implements BookListDao {
     @Override
     public void addBook(CustomBook book) throws DaoException {
-        boolean isAbsentLibrary = Library.getInstance().getBooks()
+        boolean isPresentInLibrary = Library.getInstance().getBooks()
                 .stream()
-                .filter(p -> p.getName().equals(book.getName()))
-                .filter(p -> p.getAuthor().equals(book.getAuthor()))
-                .filter(p -> p.getEdition().equals(book.getEdition()))
-                .filter(p -> p.getYear() == book.getYear())
-                .filter(p -> p.getPage() == book.getPage())
-                .collect(Collectors.toList())
-                .isEmpty();
-        if (!isAbsentLibrary) {
+                .anyMatch(b -> b.getName().equals(book.getName()) &&
+                        b.getAuthor().equals(book.getAuthor()) &&
+                        b.getEdition().equals(book.getEdition()) &&
+                        b.getYear() == book.getYear() &&
+                        b.getPage() == book.getPage());
+        if (isPresentInLibrary) {
             throw new DaoException("This book is already in storage");
         }
-        Library.getInstance().add(book);
+        try {
+            Library.getInstance().add(book);
+        } catch (LibraryException ex) {
+            throw new DaoException(ex.getMessage());
+        }
     }
 
     @Override
     public void removeById(UUID bookId) throws DaoException {
         Optional<CustomBook> bookInLibrary = Library.getInstance().getBooks()
                 .stream()
-                .filter(p -> p.getBookId().equals(bookId))
+                .filter(b -> b.getBookId().equals(bookId))
                 .findAny();
-        if (!bookInLibrary.isPresent()) {
+        if (bookInLibrary.isEmpty()) {
             throw new DaoException("This book is absent in storage");
         }
-        Library.getInstance().remove(bookInLibrary.get());
+        try {
+            Library.getInstance().remove(bookInLibrary.get());
+        } catch (LibraryException ex) {
+            throw new DaoException(ex.getMessage());
+        }
     }
 
     @Override
     public void removeByName(String name) throws DaoException {
         List<CustomBook> bookInLibrary = Library.getInstance().getBooks()
                 .stream()
-                .filter(p -> p.getName().equals(name))
+                .filter(b -> b.getName().equals(name))
                 .collect(Collectors.toList());
         if (bookInLibrary.isEmpty()) {
             throw new DaoException("This book is absent in storage");
         }
         for (CustomBook book : bookInLibrary) {
-            Library.getInstance().remove(book);
+            try {
+                Library.getInstance().remove(book);
+            } catch (LibraryException ex) {
+                throw new DaoException(ex.getMessage());
+            }
         }
     }
 
     @Override
     public Optional<CustomBook> findById(UUID bookId) {
-        return Library.getInstance().getBooks()
+        Optional<CustomBook> book = Library.getInstance().getBooks()
                 .stream()
-                .filter((p) -> bookId.equals(p.getBookId()))
+                .filter(b -> bookId.equals(b.getBookId()))
                 .findFirst();
+        return book;
     }
 
     @Override
@@ -68,72 +80,79 @@ public class BookListDaoImpl implements BookListDao {
 
     @Override
     public List<CustomBook> findByName(String name) {
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
-                .filter((p) -> p.getName().indexOf(name) != -1)
+                .filter(b -> b.getName().indexOf(name) != -1)
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override
     public List<CustomBook> findByAuthor(String author) {
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
-                .filter((p) -> p.getAuthor()
+                .filter(b -> b.getAuthor()
                         .stream()
-                        .filter(p1 -> p1.indexOf(author) != -1).findFirst().isPresent()
-                )
+                        .anyMatch(a -> a.indexOf(author) != -1))
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override
     public List<CustomBook> findByEdition(String edition) {
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
-                .filter((p) ->p.getEdition().indexOf(edition)!=-1)
+                .filter(b -> b.getEdition().indexOf(edition) != -1)
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override
     public List<CustomBook> findByYear(int year) {
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
-                .filter((p) -> year == p.getYear())
+                .filter(b -> year == b.getYear())
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override
     public List<CustomBook> findByPage(int page) {
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
-                .filter((p) -> page == p.getPage())
+                .filter(b -> page == b.getPage())
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override
     public List<CustomBook> sortBooksByName(SortDirection sortDirection) {
         int direction = (sortDirection == SortDirection.DECREASE) ? -1 : 1;
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
                 .sorted((b1, b2) -> direction * b1.getName().compareTo(b2.getName()))
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override
     public List<CustomBook> sortBooksByAuthor(SortDirection sortDirection) {
         int direction = (sortDirection == SortDirection.DECREASE) ? -1 : 1;
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
                 .sorted((b1, b2) -> direction * b1.getAuthor().get(0).compareTo(b2.getAuthor().get(0)))
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override
     public List<CustomBook> sortBooksByEdition(SortDirection sortDirection) {
         int direction = (sortDirection == SortDirection.DECREASE) ? -1 : 1;
-        return Library.getInstance().getBooks()
+        List<CustomBook> books = Library.getInstance().getBooks()
                 .stream()
                 .sorted((b1, b2) -> direction * b1.getEdition().compareTo(b2.getEdition()))
                 .collect(Collectors.toList());
+        return books;
     }
 
     @Override

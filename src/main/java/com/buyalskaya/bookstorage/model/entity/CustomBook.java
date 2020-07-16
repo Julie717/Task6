@@ -32,6 +32,15 @@ public class CustomBook {
         this.page = page;
     }
 
+    public CustomBook(String bookId, String name, List<String> author, String edition, int year, int page) {
+        this.bookId = UUID.fromString(bookId);
+        this.name = name;
+        this.author = author;
+        this.edition = edition;
+        this.year = year;
+        this.page = page;
+    }
+
     public UUID getBookId() {
         return bookId;
     }
@@ -85,24 +94,23 @@ public class CustomBook {
             return false;
         }
         CustomBook book = (CustomBook) obj;
-        if (!(bookId == null && book.bookId == null)) {
+        if (bookId == null ^ book.bookId == null ||
+                bookId != null && book.bookId != null && !bookId.equals(book.bookId)) {
             return false;
         }
-        if (!(name == null && book.name == null)) {
+        if (name == null ^ book.name == null ||
+                name != null && book.name != null && !name.equals(book.name)) {
             return false;
         }
-        if (!(author == null && book.author == null)) {
+        if (author == null ^ book.author == null ||
+                author != null && book.author != null && !author.equals(book.author)) {
             return false;
         }
-        if (!(edition == null && book.edition == null)) {
+        if (edition == null ^ book.edition == null ||
+                edition != null && book.edition != null && !edition.equals(book.edition)) {
             return false;
         }
-        return (bookId.equals(book.bookId)) &&
-                (name.equals(book.name)) &&
-                (author.equals(book.author)) &&
-                (edition.equals(book.edition)) &&
-                (year == book.year) &&
-                (page == book.page);
+        return (year == book.year) && (page == book.page);
     }
 
     @Override

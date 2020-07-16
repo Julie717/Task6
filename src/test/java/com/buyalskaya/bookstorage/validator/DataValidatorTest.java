@@ -17,8 +17,8 @@ public class DataValidatorTest {
         dataValidator = new DataValidator();
     }
 
-    @DataProvider(name = "dataForValidateId")
-    public Object[][] dataForValidateId() {
+    @DataProvider(name = "dataForIsIdValid")
+    public Object[][] dataForIsIdValid() {
         return new Object[][]{
                 {"09054ea5-9564-4d64-ad14-8f0a1df3bc27", true},
                 {"09054EA5-9564-4d64-ad14-8f0a1df3bc27", true},
@@ -29,15 +29,14 @@ public class DataValidatorTest {
         };
     }
 
-    @Test(dataProvider = "dataForValidateId")
-    public void validateIdTestParams(String id, boolean expected) {
-        boolean actual = dataValidator.validateId(id);
+    @Test(dataProvider = "dataForIsIdValid")
+    public void isIdValidTestParams(String id, boolean expected) {
+        boolean actual = dataValidator.isIdValid(id);
         assertEquals(actual, expected);
     }
 
-
-    @DataProvider(name = "dataForValidateStringParameter")
-    public Object[][] dataForValidateStringParameter() {
+    @DataProvider(name = "dataForIsStringValid")
+    public Object[][] dataForIsStringValid() {
         return new Object[][]{
                 {"World", true},
                 {".", false},
@@ -47,20 +46,20 @@ public class DataValidatorTest {
         };
     }
 
-    @Test(dataProvider = "dataForValidateStringParameter")
-    public void validateNameTestParams(String name, boolean expected) {
-        boolean actual = dataValidator.validateName(name);
+    @Test(dataProvider = "dataForIsStringValid")
+    public void isNameValidTestParams(String name, boolean expected) {
+        boolean actual = dataValidator.isNameValid(name);
         assertEquals(actual, expected);
     }
 
-    @Test(dataProvider = "dataForValidateStringParameter")
-    public void validateEditionTestParams(String edition, boolean expected) {
-        boolean actual = dataValidator.validateEdition(edition);
+    @Test(dataProvider = "dataForIsStringValid")
+    public void isEditionValidTestParams(String edition, boolean expected) {
+        boolean actual = dataValidator.isEditionValid(edition);
         assertEquals(actual, expected);
     }
 
-    @DataProvider(name = "dataForValidateAuthor")
-    public Object[][] dataForValidateAuthor() {
+    @DataProvider(name = "dataForIsListAuthorValid")
+    public Object[][] dataForIsListAuthorValid() {
         return new Object[][]{
                 {Arrays.asList("J.K.Rowling", "Victor Hugo", "Александр Сергеевич Пушкин", "S. King"), true},
                 {Arrays.asList("S.S.S.King", "Victor Hugo"), false},
@@ -68,18 +67,37 @@ public class DataValidatorTest {
                 {Arrays.asList("Victor Hugo", " "), false},
                 {Arrays.asList("Victor Hugo", "4"), false},
                 {Arrays.asList("Victor Hugo", null), false},
-                {null, false},
+                {null, false}
         };
     }
 
-    @Test(dataProvider = "dataForValidateAuthor")
-    public void validateAuthorTestParams(List<String> author, boolean expected) {
-        boolean actual = dataValidator.validateAuthor(author);
+    @Test(dataProvider = "dataForIsListAuthorValid")
+    public void isListAuthorValidTestParams(List<String> author, boolean expected) {
+        boolean actual = dataValidator.isAuthorValid(author);
         assertEquals(actual, expected);
     }
 
-    @DataProvider(name = "dataForValidateYear")
-    public Object[][] dataForValidateYear() {
+    @DataProvider(name = "dataForIsAuthorValid")
+    public Object[][] dataForIsAuthorValid() {
+        return new Object[][]{
+                {"J.K.Rowling", true},
+                {"Victor Hugo", true},
+                {"V.Hugo", true},
+                {"S.S.S.King", false},
+                {"", false},
+                {"9", false},
+                {null, false}
+        };
+    }
+
+    @Test(dataProvider = "dataForIsAuthorValid")
+    public void isAuthorValidTestParams(String author, boolean expected) {
+        boolean actual = dataValidator.isAuthorValid(author);
+        assertEquals(actual, expected);
+    }
+
+    @DataProvider(name = "dataForIsYearValid")
+    public Object[][] dataForIsYearValid() {
         return new Object[][]{
                 {"1996", true},
                 {"1876", true},
@@ -93,14 +111,14 @@ public class DataValidatorTest {
         };
     }
 
-    @Test(dataProvider = "dataForValidateYear")
-    public void validateYearTestParams(String year, boolean expected) {
-        boolean actual = dataValidator.validateYear(year);
+    @Test(dataProvider = "dataForIsYearValid")
+    public void isYearValidTestParams(String year, boolean expected) {
+        boolean actual = dataValidator.isYearValid(year);
         assertEquals(actual, expected);
     }
 
-    @DataProvider(name = "dataForValidatePage")
-    public Object[][] dataForValidatePage() {
+    @DataProvider(name = "dataForIsPageValid")
+    public Object[][] dataForIsPageValid() {
         return new Object[][]{
                 {"195", true},
                 {"987", true},
@@ -113,14 +131,14 @@ public class DataValidatorTest {
         };
     }
 
-    @Test(dataProvider = "dataForValidatePage")
-    public void validatePageTestParams(String page, boolean expected) {
-        boolean actual = dataValidator.validatePage(page);
+    @Test(dataProvider = "dataForIsPageValid")
+    public void isPageValidTestParams(String page, boolean expected) {
+        boolean actual = dataValidator.isPageValid(page);
         assertEquals(actual, expected);
     }
 
-    @DataProvider(name = "dataForValidateSortDirection")
-    public Object[][] dataForValidateSortDirection() {
+    @DataProvider(name = "dataForIsSortDirectionValid")
+    public Object[][] dataForIsSortDirectionValid() {
         return new Object[][]{
                 {"increase", true},
                 {"decrease", true},
@@ -134,9 +152,9 @@ public class DataValidatorTest {
         };
     }
 
-    @Test(dataProvider = "dataForValidateSortDirection")
-    public void validateSortDirectionTestParams(String sortDirection, boolean expected) {
-        boolean actual = dataValidator.validateSortDirection(sortDirection);
+    @Test(dataProvider = "dataForIsSortDirectionValid")
+    public void isSortDirectionValidTestParams(String sortDirection, boolean expected) {
+        boolean actual = dataValidator.isSortDirectionValid(sortDirection);
         assertEquals(actual, expected);
     }
 }

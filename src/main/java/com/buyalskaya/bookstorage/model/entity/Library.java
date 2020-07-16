@@ -1,8 +1,9 @@
 package com.buyalskaya.bookstorage.model.entity;
 
-import com.buyalskaya.bookstorage.model.exception.DaoException;
+import com.buyalskaya.bookstorage.exception.LibraryException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Library {
 
@@ -10,9 +11,7 @@ public class Library {
     private static List<CustomBook> books;
 
     private Library() {
-        if (instance != null) {
-            throw new RuntimeException("Library is already exist");//TODO ban reflection, can throw Runtime here?
-        }
+        books = new ArrayList<>();
     }
 
     public static Library getInstance() {
@@ -22,29 +21,49 @@ public class Library {
         return instance;
     }
 
-    public static void setBooks(List<CustomBook> books) {
-        if (Library.books == null) {
-            Library.books = books;
+    public void setBooks(List<CustomBook> books) throws LibraryException {
+        //TODO It uses just for initialization of library
+        if (!Library.books.isEmpty()) {
+            throw new LibraryException("Library is full");
         }
+        if (!isDifferentBooks(books)) {
+            throw new LibraryException("Incorrect book list, which contains the same books");
+        }
+        Library.books = books;
+    }
+
+    private boolean isDifferentBooks(List<CustomBook> books) {
+        boolean isDifferentId = books.stream()
+                .collect(Collectors.groupingBy(b -> b.getBookId(), Collectors.counting()))
+                .values().stream().allMatch(v -> v == 1);
+        boolean isDifferentBook = isDifferentId;
+        if (isDifferentId) {
+            long amountDifferentBooksExceptId = books.stream()
+                    .map(b -> List.of(b.getName(),
+                            b.getAuthor(),
+                            b.getEdition(),
+                            b.getYear(),
+                            b.getPage())).distinct().count();
+            isDifferentBook = amountDifferentBooksExceptId == books.size();
+        }
+        return isDifferentBook;
     }
 
     public List<CustomBook> getBooks() {
-        return books;
+        return Collections.unmodifiableList(books);
     }
 
-    public void add(CustomBook book) throws DaoException {
+    public void add(CustomBook book) throws LibraryException {
         if (books.contains(book)) {
-            throw new DaoException("This book is already in storage");
+            throw new LibraryException("This book is already in storage");
         }
         books.add(book);
     }
 
-    public void remove(CustomBook book) throws DaoException {
+    public void remove(CustomBook book) throws LibraryException {
+        if (!books.contains(book)) {
+            throw new LibraryException("This book is absent in storage");
+        }
         books.remove(book);
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException();//TODO ban clone
     }
 }

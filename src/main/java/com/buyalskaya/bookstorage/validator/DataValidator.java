@@ -5,6 +5,7 @@ import com.buyalskaya.bookstorage.model.entity.SortDirection;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class DataValidator {
 
@@ -18,80 +19,78 @@ public class DataValidator {
     private final static String CHECK_NUMBER = "\\d+";
 
     private boolean isPositiveIntegerNumber(String number) {
-        if (number == null) {
-            return false;
+        boolean isValid = false;
+        if (number != null) {
+            isValid = Pattern.matches(CHECK_NUMBER, number);
         }
-        return Pattern.matches(CHECK_NUMBER, number);
+        return isValid;
     }
 
-    public boolean validateId(String id) {
-        if (id == null || id.isEmpty()) {
-            return false;
+    public boolean isIdValid(String id) {
+        boolean isValid = false;
+        if (id != null && !id.isEmpty()) {
+            isValid = Pattern.matches(REGEX_ID, id);
         }
-        return Pattern.matches(REGEX_ID, id);
+        return isValid;
     }
 
-    public boolean validateName(String name) {
-        if (name == null || name.isEmpty()) {
-            return false;
+    public boolean isNameValid(String name) {
+        boolean isValid = false;
+        if (name != null && !name.isEmpty()) {
+            isValid = Pattern.matches(REGEX_LETTER, name);
         }
-        return Pattern.matches(REGEX_LETTER, name);
+        return isValid;
     }
 
-    public boolean validateAuthor(List<String> author) {
-        if (author == null) {
-            return false;
+    public boolean isAuthorValid(List<String> author) {
+        boolean isValid = false;
+        if (author != null) {
+            isValid = author.stream().allMatch(a -> isAuthorValid(a));
         }
-        for (String oneAuthor : author) {
-            if (!validateAuthor(oneAuthor)) {
-                return false;
-            }
-        }
-        return true;
+        return isValid;
     }
 
-    public boolean validateAuthor(String author) {
-        if (author == null || author.isEmpty()) {
-            return false;
+    public boolean isAuthorValid(String author) {
+        boolean isValid = false;
+        if (author != null && !author.isEmpty()) {
+            isValid = Pattern.matches(REGEX_AUTHOR, author);
         }
-        return Pattern.matches(REGEX_AUTHOR, author);
+        return isValid;
     }
 
-    public boolean validateEdition(String edition) {
-        if (edition == null || edition.isEmpty()) {
-            return false;
+    public boolean isEditionValid(String edition) {
+        boolean isValid = false;
+        if (edition != null && !edition.isEmpty()) {
+            isValid = Pattern.matches(REGEX_LETTER, edition);
         }
-        return Pattern.matches(REGEX_LETTER, edition);
+        return isValid;
     }
 
-    public boolean validateYear(String year) {
-        boolean isCorrectYear = false;
+    public boolean isYearValid(String year) {
+        boolean isValid = false;
         if (isPositiveIntegerNumber(year)) {
             int yearNumber = Integer.parseInt(year);
-            isCorrectYear = (yearNumber >= MIN_YEAR && yearNumber <= MAX_YEAR);
+            isValid = (yearNumber >= MIN_YEAR && yearNumber <= MAX_YEAR);
         }
-        return isCorrectYear;
+        return isValid;
     }
 
-    public boolean validatePage(String page) {
-        boolean isCorrectPage = false;
+    public boolean isPageValid(String page) {
+        boolean isValid = false;
         if (isPositiveIntegerNumber(page)) {
             int pageNumber = Integer.parseInt(page);
-            isCorrectPage = (pageNumber >= MIN_PAGE && pageNumber <= MAX_PAGE);
+            isValid = (pageNumber >= MIN_PAGE && pageNumber <= MAX_PAGE);
         }
-        return isCorrectPage;
+        return isValid;
     }
 
-    public boolean validateSortDirection(String sortDirection) {
-        if (sortDirection == null || sortDirection.isEmpty()) {
-            return false;
+    public boolean isSortDirectionValid(String sortDirection) {
+        boolean isValid = false;
+        if (sortDirection != null && !sortDirection.isEmpty()) {
+            String directionUpper = sortDirection.toUpperCase();
+            isValid = Stream.of(SortDirection.values())
+                    .anyMatch(d -> directionUpper.equals(d.toString()));
         }
-        String directionUpper = sortDirection.toUpperCase();
-        for (SortDirection direction : SortDirection.values()) {
-            if (directionUpper.equals(direction.toString())) {
-                return true;
-            }
-        }
-        return false;
+        return isValid;
     }
 }
