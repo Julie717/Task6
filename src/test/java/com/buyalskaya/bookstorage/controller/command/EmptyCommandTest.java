@@ -1,7 +1,7 @@
 package com.buyalskaya.bookstorage.controller.command;
 
 import com.buyalskaya.bookstorage.controller.command.impl.EmptyCommand;
-import com.buyalskaya.bookstorage.utility.Response;
+import com.buyalskaya.bookstorage.controller.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

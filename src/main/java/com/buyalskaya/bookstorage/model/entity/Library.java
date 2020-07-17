@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
-
     private static Library instance;
     private static List<CustomBook> books;
 
@@ -43,7 +42,9 @@ public class Library {
                             b.getAuthor(),
                             b.getEdition(),
                             b.getYear(),
-                            b.getPage())).distinct().count();
+                            b.getPage()))
+                    .distinct()
+                    .count();
             isDifferentBook = amountDifferentBooksExceptId == books.size();
         }
         return isDifferentBook;

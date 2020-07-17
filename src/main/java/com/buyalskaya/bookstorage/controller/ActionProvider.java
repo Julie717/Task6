@@ -5,13 +5,16 @@ import com.buyalskaya.bookstorage.controller.command.CommandType;
 import com.buyalskaya.bookstorage.controller.command.impl.EmptyCommand;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 public class ActionProvider {
     public static Command defineCommand(String commandName) {
-        Optional<Command> command = Arrays.stream(CommandType.values())
-                .filter(p -> p.name().equals(commandName.toUpperCase()))
-                .findFirst().map(CommandType::getCommand);
-        return command.orElse(new EmptyCommand());
+        Command command = new EmptyCommand();
+        if (commandName != null) {
+            command = Arrays.stream(CommandType.values())
+                    .filter(p -> p.name().equals(commandName.toUpperCase()))
+                    .findFirst()
+                    .map(CommandType::getCommand).orElse(command);
+        }
+        return command;
     }
 }

@@ -3,7 +3,7 @@ package com.buyalskaya.bookstorage.controller.command;
 import com.buyalskaya.bookstorage.controller.command.impl.AddCommand;
 import com.buyalskaya.bookstorage.exception.LibraryException;
 import com.buyalskaya.bookstorage.dataprovider.InitialLibrary;
-import com.buyalskaya.bookstorage.utility.Response;
+import com.buyalskaya.bookstorage.controller.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -30,55 +30,45 @@ public class AddCommandTest {
         parameters1.put("edition", "Vintage");
         parameters1.put("year", "1996");
         parameters1.put("page", "384");
-        Response response1 = new Response();
-        response1.setCompletedSuccess(true);
-        response1.setMessage("The book was added");
-
+        Response response1 = new Response(true, "The book was added");
         Map<String, String> parameters2 = new HashMap<>();
         parameters2.put("name", "The Computer Book: From the Abacus to Artificial Intelligence, 250 Milestones in the History of Computer Science");
         parameters2.put("author", "S.L.Garfinkel, R.H.Grunspan");
         parameters2.put("edition", "Sterling");
         parameters2.put("year", "2018");
         parameters2.put("page", "528");
-        Response response2 = new Response();
-        response2.setCompletedSuccess(true);
-        response2.setMessage("The book was added");
-
+        Response response2 = new Response(true, "The book was added");
         Map<String, String> parameters3 = new HashMap<>();
         parameters3.put("name", "Harry Potter and the Philosopher's Stone");
         parameters3.put("author", "J.K.Rowling");
         parameters3.put("edition", "Bloomsbury");
         parameters3.put("year", "2014");
         parameters3.put("page", "352");
-        Response response3 = new Response();
-        response3.setCompletedSuccess(false);
-        response3.setMessage("This book is already in storage");
-
+        Response response3 = new Response(false, "This book is already in storage");
         Map<String, String> parameters4 = new HashMap<>();
         parameters4.put("name", "Harry Potter and the Philosopher's Stone");
         parameters4.put("author", "J.K.Rowling");
         parameters4.put("year", "2014");
         parameters4.put("page", "352");
-        Response response4 = new Response();
-        response4.setCompletedSuccess(false);
-        response4.setMessage("Incorrect book parameters");
-
+        Response response4 = new Response(false, "Incorrect book parameters");
         Map<String, String> parameters5 = new HashMap<>();
         parameters5.put("name", "Harry Potter and the Philosopher's Stone");
         parameters5.put("author", "J.K.Rowling");
-        parameters3.put("edition", "Bloomsbury");
+        parameters5.put("edition", "Bloomsbury");
         parameters5.put("year", "2025");
         parameters5.put("page", "352");
         Response response5 = new Response();
         response5.setCompletedSuccess(false);
         response5.setMessage("Incorrect book parameters");
-
+        Map<String, String> parameters6 = null;
+        Response response6 = new Response(false, "Incorrect parameters");
         return new Object[][]{
                 {parameters1, response1},
                 {parameters2, response2},
                 {parameters3, response3},
                 {parameters4, response4},
-                {parameters5, response5}
+                {parameters5, response5},
+                {parameters6, response6}
         };
     }
 

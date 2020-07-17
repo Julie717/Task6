@@ -4,7 +4,7 @@ import com.buyalskaya.bookstorage.controller.command.impl.FindByPageCommand;
 import com.buyalskaya.bookstorage.exception.LibraryException;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
 import com.buyalskaya.bookstorage.dataprovider.InitialLibrary;
-import com.buyalskaya.bookstorage.utility.Response;
+import com.buyalskaya.bookstorage.controller.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -48,36 +48,27 @@ public class FindByPageCommandTest {
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
         response1.setBooks(books);
-
         Map<String, String> parameters2 = new HashMap<>();
         parameters2.put("name", "Notre-Dam");
-        Response response2 = new Response();
-        response2.setCompletedSuccess(false);
-        response2.setMessage("Incorrect book page");
-
+        Response response2 = new Response(false, "Incorrect book page");
         Map<String, String> parameters3 = new HashMap<>();
         parameters3.put("page", "25");
-        Response response3 = new Response();
-        response3.setCompletedSuccess(false);
-        response3.setMessage("Book isn't found");
-
+        Response response3 = new Response(false, "Book isn't found");
         Map<String, String> parameters4 = new HashMap<>();
         parameters4.put("page", "");
-        Response response4 = new Response();
-        response4.setCompletedSuccess(false);
-        response4.setMessage("Incorrect book page");
-
+        Response response4 = new Response(false, "Incorrect book page");
         Map<String, String> parameters5 = new HashMap<>();
         parameters5.put("page", "17891");
-        Response response5 = new Response();
-        response5.setCompletedSuccess(false);
-        response5.setMessage("Incorrect book page");
+        Response response5 = new Response(false, "Incorrect book page");
+        Map<String, String> parameters6 = null;
+        Response response6 = new Response(false, "Incorrect book page");
         return new Object[][]{
                 {parameters1, response1},
                 {parameters2, response2},
                 {parameters3, response3},
                 {parameters4, response4},
-                {parameters5, response5}
+                {parameters5, response5},
+                {parameters6, response6}
         };
     }
 

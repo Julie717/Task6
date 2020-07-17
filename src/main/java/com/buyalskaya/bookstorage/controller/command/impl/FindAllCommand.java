@@ -4,7 +4,7 @@ import com.buyalskaya.bookstorage.controller.command.Command;
 import com.buyalskaya.bookstorage.exception.ServiceException;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
 import com.buyalskaya.bookstorage.model.service.BookService;
-import com.buyalskaya.bookstorage.utility.Response;
+import com.buyalskaya.bookstorage.controller.Response;
 
 import java.util.List;
 import java.util.Map;

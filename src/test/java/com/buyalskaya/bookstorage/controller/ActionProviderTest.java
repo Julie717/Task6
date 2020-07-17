@@ -15,10 +15,12 @@ public class ActionProviderTest {
     @DataProvider(name = "dataForDefineCommand")
     public Object[][] dataForDefineCommand() {
         return new Object[][]{
-                {"Add",new AddCommand()},
-                {"find_by_name",new FindByNameCommand()},
-                {"SORT_by_name",new SortByNameCommand()},
-                {"addition",new EmptyCommand()}
+                {"Add", new AddCommand()},
+                {"find_by_name", new FindByNameCommand()},
+                {"SORT_by_name", new SortByNameCommand()},
+                {"addition", new EmptyCommand()},
+                {"", new EmptyCommand()},
+                {null, new EmptyCommand()}
         };
     }
 

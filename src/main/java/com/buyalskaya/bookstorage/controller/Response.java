@@ -1,4 +1,4 @@
-package com.buyalskaya.bookstorage.utility;
+package com.buyalskaya.bookstorage.controller;
 
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
 
@@ -8,18 +8,20 @@ import java.util.StringJoiner;
 
 public class Response {
     private boolean isCompletedSuccess;
-    private String message;
-    private List<CustomBook> books;
+    private String message = new String();
+    private List<CustomBook> books = new ArrayList<>();
 
     public Response() {
-        message = new String();
-        books = new ArrayList<>();
     }
 
     public Response(boolean isCompletedSuccess, String message) {
         this.isCompletedSuccess = isCompletedSuccess;
         this.message = message;
-        books = new ArrayList<>();
+    }
+
+    public Response(boolean isCompletedSuccess, List<CustomBook> books) {
+        this.isCompletedSuccess = isCompletedSuccess;
+        this.books = books;
     }
 
     public Response(boolean isCompletedSuccess, String message, List<CustomBook> books) {
@@ -61,12 +63,12 @@ public class Response {
             return false;
         }
         Response response = (Response) obj;
-        if (message == null ^ response.message == null ||
-                message != null && response.message != null && !message.equals(response.message)) {
+        if ((message == null ^ response.message == null) ||
+                (message != null && response.message != null && !message.equals(response.message))) {
             return false;
         }
-        if (books == null ^ response.books == null ||
-                books != null && response.books != null && !books.equals(response.books)) {
+        if ((books == null ^ response.books == null) ||
+                (books != null && response.books != null && !books.equals(response.books))) {
             return false;
         }
         return isCompletedSuccess == response.isCompletedSuccess;

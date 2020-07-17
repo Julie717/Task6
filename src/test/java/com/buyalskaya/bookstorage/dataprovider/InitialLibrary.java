@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class InitialLibrary {
-
     public static void initLibrary() throws LibraryException {
-        List<CustomBook> books=createInitialListBook();
+        List<CustomBook> books = createInitialListBook();
         Library.getInstance().setBooks(books);
     }
 
@@ -26,7 +25,6 @@ public class InitialLibrary {
         int page = 352;
         CustomBook book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("730bd030-69a2-4d74-8183-45053437043f");
         name = "Harry Potter and the Chamber of Secrets";
         author = new ArrayList<>();
@@ -36,7 +34,6 @@ public class InitialLibrary {
         page = 384;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("b63ad7d6-de3f-445d-88d0-c77319426c36");
         name = "Harry Potter and the Prisoner of Azkaban";
         author = new ArrayList<>();
@@ -46,7 +43,6 @@ public class InitialLibrary {
         page = 480;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("6a87f4a7-3e0e-43d0-b74d-bc8f90f62702");
         name = "Harry Potter and the Goblet of Fire";
         author = new ArrayList<>();
@@ -56,7 +52,6 @@ public class InitialLibrary {
         page = 640;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("9a87cd94-ee92-4d13-8ca9-e8ef49d3f67d");
         name = "Harry Potter and the Order of the Phoenix";
         author = new ArrayList<>();
@@ -66,7 +61,6 @@ public class InitialLibrary {
         page = 816;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("20b020a3-51cb-4dd4-9267-eb997aa8e630");
         name = "Harry Potter and the Half-Blood Prince";
         author = new ArrayList<>();
@@ -76,7 +70,6 @@ public class InitialLibrary {
         page = 560;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("28b22d61-e6bf-4763-9b8f-548417a6dc41");
         name = "Harry Potter and the Deathly Hallows";
         author = new ArrayList<>();
@@ -86,7 +79,6 @@ public class InitialLibrary {
         page = 640;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("5d7f2a66-1959-4b28-ba3a-bf08fcda0ebe");
         name = "Notre-Dame de Paris";
         author = new ArrayList<>();
@@ -96,7 +88,6 @@ public class InitialLibrary {
         page = 592;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("08335865-a91c-4632-a175-fb4ed9a37e78");
         name = "Les Miserables";
         author = new ArrayList<>();
@@ -106,7 +97,6 @@ public class InitialLibrary {
         page = 1264;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("af908285-53c4-46de-9d8a-5a6ac88014a0");
         name = "Ninety-three";
         author = new ArrayList<>();
@@ -116,7 +106,6 @@ public class InitialLibrary {
         page = 362;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("703ffb17-d2f8-436f-8ef3-60018c2c3577");
         name = "The Man Who Laughs";
         author = new ArrayList<>();
@@ -126,7 +115,6 @@ public class InitialLibrary {
         page = 368;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("abd2a107-36ee-4509-869e-6cee81a2c539");
         name = "Humans";
         author = new ArrayList<>();
@@ -136,7 +124,6 @@ public class InitialLibrary {
         page = 448;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("82728797-df92-4ef0-b099-cd542187741d");
         name = "The Animals at Lockwood Manor";
         author = new ArrayList<>();
@@ -146,7 +133,6 @@ public class InitialLibrary {
         page = 352;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("15a5e40d-d886-422e-90bf-d81cc9fcd8a0");
         name = "A Fall of Marigolds";
         author = new ArrayList<>();
@@ -156,7 +142,6 @@ public class InitialLibrary {
         page = 400;
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
-
         bookId = UUID.fromString("a348a970-fed2-4b51-92b9-711bc4d27835");
         name = "The Summer House";
         author = new ArrayList<>();

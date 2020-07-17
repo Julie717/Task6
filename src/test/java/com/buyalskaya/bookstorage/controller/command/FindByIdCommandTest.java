@@ -4,7 +4,7 @@ import com.buyalskaya.bookstorage.controller.command.impl.FindByIdCommand;
 import com.buyalskaya.bookstorage.exception.LibraryException;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
 import com.buyalskaya.bookstorage.dataprovider.InitialLibrary;
-import com.buyalskaya.bookstorage.utility.Response;
+import com.buyalskaya.bookstorage.controller.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -39,29 +39,23 @@ public class FindByIdCommandTest {
         CustomBook book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
         response1.setBooks(books);
-
         Map<String, String> parameters2 = new HashMap<>();
         parameters2.put("name", "Notre-Dam");
-        Response response2 = new Response();
-        response2.setCompletedSuccess(false);
-        response2.setMessage("Incorrect book id");
-
+        Response response2 = new Response(false, "Incorrect book id");
         Map<String, String> parameters3 = new HashMap<>();
         parameters3.put("id", "730bd030-69a2-4d74-8183-fff53437043f");
-        Response response3 = new Response();
-        response3.setCompletedSuccess(false);
-        response3.setMessage("The book isn't found");
-
+        Response response3 = new Response(false, "The book isn't found");
         Map<String, String> parameters4 = new HashMap<>();
         parameters4.put("id", "");
-        Response response4 = new Response();
-        response4.setCompletedSuccess(false);
-        response4.setMessage("Incorrect book id");
+        Response response4 = new Response(false, "Incorrect book id");
+        Map<String, String> parameters5 = null;
+        Response response5 = new Response(false, "Incorrect book id");
         return new Object[][]{
                 {parameters1, response1},
                 {parameters2, response2},
                 {parameters3, response3},
-                {parameters4, response4}
+                {parameters4, response4},
+                {parameters5, response5}
         };
     }
 

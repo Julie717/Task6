@@ -1,7 +1,7 @@
 package com.buyalskaya.bookstorage.controller.command.impl;
 
 import com.buyalskaya.bookstorage.controller.command.Command;
-import com.buyalskaya.bookstorage.utility.Response;
+import com.buyalskaya.bookstorage.controller.Response;
 
 import java.util.Map;
 

@@ -94,20 +94,20 @@ public class CustomBook {
             return false;
         }
         CustomBook book = (CustomBook) obj;
-        if (bookId == null ^ book.bookId == null ||
-                bookId != null && book.bookId != null && !bookId.equals(book.bookId)) {
+        if ((bookId == null ^ book.bookId == null) ||
+                (bookId != null && book.bookId != null && !bookId.equals(book.bookId))) {
             return false;
         }
-        if (name == null ^ book.name == null ||
-                name != null && book.name != null && !name.equals(book.name)) {
+        if ((name == null ^ book.name == null) ||
+                (name != null && book.name != null && !name.equals(book.name))) {
             return false;
         }
-        if (author == null ^ book.author == null ||
-                author != null && book.author != null && !author.equals(book.author)) {
+        if ((author == null ^ book.author == null) ||
+                (author != null && book.author != null && !author.equals(book.author))) {
             return false;
         }
-        if (edition == null ^ book.edition == null ||
-                edition != null && book.edition != null && !edition.equals(book.edition)) {
+        if ((edition == null ^ book.edition == null) ||
+                (edition != null && book.edition != null && !edition.equals(book.edition))) {
             return false;
         }
         return (year == book.year) && (page == book.page);

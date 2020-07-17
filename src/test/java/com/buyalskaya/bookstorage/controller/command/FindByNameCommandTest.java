@@ -4,7 +4,7 @@ import com.buyalskaya.bookstorage.controller.command.impl.FindByNameCommand;
 import com.buyalskaya.bookstorage.exception.LibraryException;
 import com.buyalskaya.bookstorage.model.entity.CustomBook;
 import com.buyalskaya.bookstorage.dataprovider.InitialLibrary;
-import com.buyalskaya.bookstorage.utility.Response;
+import com.buyalskaya.bookstorage.controller.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -93,25 +93,15 @@ public class FindByNameCommandTest {
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
         response1.setBooks(books);
-
         Map<String, String> parameters2 = new HashMap<>();
         parameters2.put("id", "ffffffff-de3f-445d-88d0-c77319426c36");
-        Response response2 = new Response();
-        response2.setCompletedSuccess(false);
-        response2.setMessage("Incorrect book name");
-
+        Response response2 = new Response(false, "Incorrect book name");
         Map<String, String> parameters3 = new HashMap<>();
         parameters3.put("name", "Black moon");
-        Response response3 = new Response();
-        response3.setCompletedSuccess(false);
-        response3.setMessage("Book isn't found");
-
+        Response response3 = new Response(false, "Book isn't found");
         Map<String, String> parameters4 = new HashMap<>();
         parameters4.put("name", "");
-        Response response4 = new Response();
-        response4.setCompletedSuccess(false);
-        response4.setMessage("Incorrect book name");
-
+        Response response4 = new Response(false, "Incorrect book name");
         Map<String, String> parameters5 = new HashMap<>();
         parameters5.put("name", "Paris");
         Response response5 = new Response();
@@ -127,12 +117,15 @@ public class FindByNameCommandTest {
         book = new CustomBook(bookId, name, author, edition, year, page);
         books.add(book);
         response5.setBooks(books);
+        Map<String, String> parameters6 = null;
+        Response response6 = new Response(false, "Incorrect book name");
         return new Object[][]{
                 {parameters1, response1},
                 {parameters2, response2},
                 {parameters3, response3},
                 {parameters4, response4},
-                {parameters5, response5}
+                {parameters5, response5},
+                {parameters6, response6}
         };
     }
 
